@@ -1,11 +1,10 @@
 package com.rithsagea.tempera.test;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.Color;
 
-import api.rithsagea.tempera.ui.TemperaApp;
+import com.rithsagea.tempera.ui.AdvancedTemperaApp;
 
-public class AppTest extends TemperaApp {
+public class AppTest extends AdvancedTemperaApp {
 
 	private int x;
 	
@@ -14,20 +13,26 @@ public class AppTest extends TemperaApp {
 		app.start();
 	}
 	
-	@Override
-	public void update() {
-		x++;
-		if(x > 200) x = 100;
-	}
-
-	@Override
-	public void render(Graphics2D g) {
-		g.fill(new Rectangle(x, x, x, x));
+	public void setup() {
+		background(Color.GRAY);
+		size(1080, 720);
 	}
 	
-	@Override
-	public void onClose() {
-		System.out.println("Hello. My name is Inigo Montoya. You killed my father. Prepare to die.");
+	public void update() {
+		x++;
+		if(x > 1000) x = 100;
 	}
 
+	public void draw() {
+		fill(Color.BLUE);
+		ellipse(getWidth() / 2, getHeight() / 2, x * 2, x);
+		fill(Color.RED);
+		circle(getWidth() / 2, getHeight() / 2, x);
+		fill(Color.GREEN);
+		rect(getWidth() / 2 - x / 4, getHeight() / 2 - x / 4, x / 2, x / 2);
+	}
+	
+	public void close() {
+		System.out.println("Hello. My name is Inigo Montoya. You killed my father. Prepare to die.");
+	}
 }

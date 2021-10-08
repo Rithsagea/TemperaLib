@@ -1,9 +1,8 @@
-package api.rithsagea.tempera.ui;
+package com.rithsagea.tempera.ui;
 
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
@@ -30,9 +29,9 @@ public abstract class TemperaApp implements Runnable {
 	
 	private void init() {
 		canvas = new Canvas();
-		canvas.setSize(1080, 720);
-		canvas.setBackground(Color.WHITE);
 		canvas.setIgnoreRepaint(true);
+		//TODO remove these
+		setup();
 		
 		frame = new JFrame();
 		frame.getContentPane().add(canvas);
@@ -80,7 +79,7 @@ public abstract class TemperaApp implements Runnable {
 					//clears the graphics (canvas)
 					g.clearRect(0, 0, frame.getWidth(), frame.getHeight());
 					//draws stuff to the graphics
-					render((Graphics2D) g);
+					render(g);
 				} finally {
 					if(g != null) {
 						g.dispose();
@@ -117,11 +116,23 @@ public abstract class TemperaApp implements Runnable {
 		}
 	}
 	
+	// accessors and mutators
+	
+	public int getWidth() {
+		return frame.getWidth();
+	}
+	
+	public int getHeight() {
+		return frame.getHeight();
+	}
+	
 	// external stuff
+	
+	public abstract void setup();
 	
 	public abstract void update();
 	
-	public abstract void render(Graphics2D g);
+	public abstract void render(Graphics g);
 	
 	public void onClose() {
 		System.out.println("Stopping App");
