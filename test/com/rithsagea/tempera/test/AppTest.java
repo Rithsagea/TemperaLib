@@ -1,5 +1,6 @@
 package com.rithsagea.tempera.test;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 
 import com.rithsagea.tempera.ui.AdvancedTemperaApp;
@@ -16,6 +17,10 @@ public class AppTest extends AdvancedTemperaApp {
 	public void setup() {
 		background(Color.GRAY);
 		size(1080, 720);
+		
+		stroke(Color.CYAN);
+		strokeWeight(100);
+		strokeStyle(BasicStroke.CAP_ROUND);
 	}
 	
 	public void update() {

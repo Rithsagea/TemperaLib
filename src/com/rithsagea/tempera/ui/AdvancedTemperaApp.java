@@ -20,14 +20,15 @@ public abstract class AdvancedTemperaApp extends TemperaApp {
 	private int strokeJoin = BasicStroke.JOIN_MITER;
 	
 	@Override
-	public final void render(Graphics g) {
+	public final void draw(Graphics g) {
 		this.g = (Graphics2D) g;
 		draw();
 	}
 	
 	public abstract void draw();
 	
-	private void draw(Shape shape) {
+	private void drawShape(Shape shape) {
+		if(g == null) return;
 		g.setPaint(fillColor);
 		g.fill(shape);
 		g.setPaint(strokeColor);
@@ -35,7 +36,7 @@ public abstract class AdvancedTemperaApp extends TemperaApp {
 	}
 	
 	public final void ellipse(double x, double y, double w, double h) {
-		draw(new Ellipse2D.Double(x - w / 2, y - h / 2, w, h));
+		drawShape(new Ellipse2D.Double(x - w / 2, y - h / 2, w, h));
 	}
 	
 	public final void circle(double x, double y, double d) {
@@ -43,7 +44,7 @@ public abstract class AdvancedTemperaApp extends TemperaApp {
 	}
 	
 	public final void rect(double x, double y, double w, double h) {
-		draw(new Rectangle2D.Double(x, y, w, h));
+		drawShape(new Rectangle2D.Double(x, y, w, h));
 	}
 	
 	public final void fill(Color color) {
@@ -55,6 +56,7 @@ public abstract class AdvancedTemperaApp extends TemperaApp {
 	}
 	
 	private void updateStroke() {
+		if(g == null) return;
 		g.setStroke(new BasicStroke((float) strokeWeight, strokeStyle, strokeJoin));
 	}
 	
