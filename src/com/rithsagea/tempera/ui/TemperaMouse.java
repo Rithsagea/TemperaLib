@@ -17,7 +17,7 @@ import java.awt.event.MouseWheelListener;
  * @author rithsagea
  *
  */
-public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
+public class TemperaMouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
 	private static final int BUTTON_COUNT = 3;
 	
@@ -28,7 +28,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 	private int notches;
 	private int polledNotches;
 	
-	public Mouse() {
+	public TemperaMouse() {
 		mousePos = new Point(0, 0);
 		currentPos = new Point(0, 0);
 		buttons = new boolean[BUTTON_COUNT];

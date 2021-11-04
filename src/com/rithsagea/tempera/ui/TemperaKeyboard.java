@@ -13,12 +13,12 @@ import java.awt.event.KeyListener;
  * 
  * @author rithsagea
  */
-public class Keyboard implements KeyListener {
+public class TemperaKeyboard implements KeyListener {
 	
 	private boolean[] keys;
 	private int[] duration;
 	
-	public Keyboard() {
+	public TemperaKeyboard() {
 		keys = new boolean[255];
 		duration = new int[256];
 	}
@@ -33,9 +33,9 @@ public class Keyboard implements KeyListener {
 	}
 	
 	/**
-	 * Checks if this is the first frame a key is being held down
+	 * Checks if this is the first tick a key is being held down
 	 * @param keyCode	the key code of the key to check
-	 * @return			whether this is the first frame of a key being held down
+	 * @return			whether this is the first tick of a key being held down
 	 */
 	public boolean keyDownOnce(int keyCode) {
 		return duration[keyCode] == 1;
@@ -46,7 +46,7 @@ public class Keyboard implements KeyListener {
 	 * @param keyCode	the key code of the key to check
 	 * @return			how many ticks the key has been held down for
 	 */
-	public int keyDownFrames(int keyCode) {
+	public int keyDownTicks(int keyCode) {
 		return duration[keyCode];
 	}
 	

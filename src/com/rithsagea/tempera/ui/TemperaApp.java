@@ -1,7 +1,6 @@
 package com.rithsagea.tempera.ui;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -19,18 +18,28 @@ public abstract class TemperaApp implements Runnable {
 	protected Canvas canvas;
 	private BufferStrategy bs;
 	
-	protected Keyboard keyboard;
-	protected Mouse mouse;
+	protected TemperaKeyboard keyboard;
+	protected TemperaMouse mouse;
+	
+	private int frameRate;
+	private int tickRate;
+	
+	private long nanosPerFrame;
+	private long nanosPerTick;
+	private long lastFrame;
+	private long lastTick;
 	
 	public TemperaApp() {
-		keyboard = new Keyboard();
-		mouse = new Mouse();
+		keyboard = new TemperaKeyboard();
+		mouse = new TemperaMouse();
 	}
 	
 	private void init() {
+		setTickRate(0);
+		setFrameRate(0);
+		
 		canvas = new Canvas();
 		canvas.setIgnoreRepaint(true);
-		//TODO remove these
 		setup();
 		
 		frame = new JFrame();
@@ -58,32 +67,39 @@ public abstract class TemperaApp implements Runnable {
 		appThread.start();
 	}
 	
-	private void appLoop() {
-		processInput();
-		update();
-		renderFrame();
+	private void loop() {
+		
+		long time = System.nanoTime();
+		
+		if((time - lastTick) > nanosPerTick) {
+			input();
+			update();
+			
+			lastTick = time;
+		}
+		
+		if((time - lastFrame) > nanosPerFrame) {
+			render();
+			
+			lastFrame = time;
+		}
 	}
 	
-	private void processInput() {
+	private void input() {
 		keyboard.poll();
 		mouse.poll();
 	}
 	
-	private void renderFrame() {
+	private void render() {
 		do {
 			do {
 				Graphics g = null;
 				try {
-					//gets the current graphics object
 					g = bs.getDrawGraphics();
-					//clears the graphics (canvas)
 					g.clearRect(0, 0, frame.getWidth(), frame.getHeight());
-					//draws stuff to the graphics
-					render(g);
+					draw(g);
 				} finally {
-					if(g != null) {
-						g.dispose();
-					}
+					if(g != null) g.dispose();
 				}
 			} while(bs.contentsRestored());
 			bs.show();
@@ -96,7 +112,6 @@ public abstract class TemperaApp implements Runnable {
 			running = false;
 			appThread.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.exit(0);
@@ -112,7 +127,7 @@ public abstract class TemperaApp implements Runnable {
 	public final void run() {
 		running = true;
 		while(running) {
-			appLoop();
+			loop();
 		}
 	}
 	
@@ -126,13 +141,35 @@ public abstract class TemperaApp implements Runnable {
 		return frame.getHeight();
 	}
 	
+	public int getTickRate() {
+		return tickRate;
+	}
+	
+	public int getFrameRate() {
+		return frameRate;
+	}
+	
+	public void setBounds(int width, int height) {
+		canvas.setSize(width, height);
+	}
+	
+	public void setTickRate(int tickRate) {
+		this.tickRate = tickRate;
+		nanosPerTick = tickRate == 0 ? 0 : 1000000000 / tickRate;
+	}
+	
+	public void setFrameRate(int frameRate) {
+		this.frameRate = frameRate;
+		nanosPerFrame = frameRate == 0 ? 0 : 1000000000 / frameRate;
+	}
+	
 	// external stuff
 	
 	public abstract void setup();
 	
 	public abstract void update();
 	
-	public abstract void render(Graphics g);
+	public abstract void draw(Graphics g);
 	
 	public void onClose() {
 		System.out.println("Stopping App");
