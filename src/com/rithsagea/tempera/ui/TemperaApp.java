@@ -1,6 +1,7 @@
 package com.rithsagea.tempera.ui;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -161,6 +162,10 @@ public abstract class TemperaApp implements Runnable {
 	public void setFrameRate(int frameRate) {
 		this.frameRate = frameRate;
 		nanosPerFrame = frameRate == 0 ? 0 : 1000000000 / frameRate;
+	}
+	
+	public void setBackground(Color c) {
+		canvas.setBackground(c);
 	}
 	
 	// external stuff
