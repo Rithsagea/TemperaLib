@@ -1,5 +1,7 @@
 package com.rithsagea.tempera.resources;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -41,14 +43,27 @@ public class TemperaImage {
 		return image;
 	}
 	
-	public TemperaSubImage subimage(int x, int y, int w, int h) {
-		return new TemperaSubImage(image.getSubimage(x, y, w, h));
+	public TemperaImage resize(int w, int h) {
+		BufferedImage img = new BufferedImage(w, h, image.getType());
+		Graphics2D g2d = img.createGraphics();
+		g2d.drawImage(image, 0, 0, w, h, null);
+		g2d.dispose();
+		
+		return new TemperaImage(img);
+	}
+	
+	public TemperaImage subimage(int x, int y, int w, int h) {
+		return new TemperaImage(image.getSubimage(x, y, w, h));
+	}
+	
+	public TemperaImage crop(int x, int y, int w, int h) {
+		return subimage(x, y, w, h).clone();
 	}
 	
 	public TemperaImage clone() {
 		ColorModel cm = image.getColorModel();
 		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-		WritableRaster raster = image.copyData(null);
+		WritableRaster raster = image.copyData(image.getRaster().createCompatibleWritableRaster());
 		
 		return new TemperaImage(new BufferedImage(cm, raster, isAlphaPremultiplied, null));
 	}
