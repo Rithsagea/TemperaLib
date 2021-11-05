@@ -18,9 +18,11 @@ public class TemperaKeyboard implements KeyListener {
 	private boolean[] keys;
 	private int[] duration;
 	
+	public static final int KEY_COUNT = 256;
+	
 	public TemperaKeyboard() {
-		keys = new boolean[255];
-		duration = new int[256];
+		keys = new boolean[KEY_COUNT];
+		duration = new int[KEY_COUNT];
 	}
 	
 	/**
@@ -55,7 +57,7 @@ public class TemperaKeyboard implements KeyListener {
 	 * when this function is run.<br>Run this once every tick. 
 	 */
 	protected synchronized void poll() {
-		for(int key = 0; key < keys.length; key++) {
+		for(int key = 0; key < KEY_COUNT; key++) {
 			if(keys[key]) {
 				duration[key]++;
 			} else {
@@ -67,7 +69,7 @@ public class TemperaKeyboard implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		if(keyCode >= 0 && keyCode <= keys.length) {
+		if(keyCode >= 0 && keyCode <= KEY_COUNT) {
 			keys[keyCode] = true;
 		}
 		
@@ -76,7 +78,7 @@ public class TemperaKeyboard implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		if(keyCode >= 0 && keyCode <= keys.length) {
+		if(keyCode >= 0 && keyCode <= KEY_COUNT) {
 			keys[keyCode] = false;
 		}
 	}
