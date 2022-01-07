@@ -41,13 +41,14 @@ public abstract class TemperaApp implements Runnable {
 		
 		canvas = new Canvas();
 		canvas.setIgnoreRepaint(true);
-		setup();
 		
 		frame = new JFrame();
 		frame.getContentPane().add(canvas);
 		frame.setTitle("Game");
 		frame.setIgnoreRepaint(true);
 		frame.pack();
+		
+		setup();
 		
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -166,6 +167,10 @@ public abstract class TemperaApp implements Runnable {
 	
 	public void setBackground(Color c) {
 		canvas.setBackground(c);
+	}
+	
+	public void setResizable(boolean resizable) {
+		frame.setResizable(resizable);
 	}
 	
 	// external stuff
