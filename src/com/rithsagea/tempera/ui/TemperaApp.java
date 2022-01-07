@@ -97,7 +97,7 @@ public abstract class TemperaApp implements Runnable {
 				Graphics g = null;
 				try {
 					g = bs.getDrawGraphics();
-					g.clearRect(0, 0, frame.getWidth(), frame.getHeight());
+					g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
 					draw(g);
 				} finally {
 					if(g != null) g.dispose();
